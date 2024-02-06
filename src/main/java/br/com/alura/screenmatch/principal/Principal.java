@@ -22,7 +22,7 @@ public class Principal {
     public void exibeMenu() throws UnsupportedEncodingException {
         System.out.println("Digite o nome da série");
         var nomeSerie = leitura.nextLine();
-        var nomeSerieCodificada = URLEncoder.encode(nomeSerie, StandardCharsets.UTF_8.toString());
+        var nomeSerieCodificada = URLEncoder.encode(nomeSerie, StandardCharsets.UTF_8);
         //"https://www.omdbapi.com/?t=gilmore+girls&season="+i+"&apikey=cc785e9"
         var json = consumoApi.obterDados(ENDERECO + nomeSerieCodificada + API_KEY);
         DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
@@ -34,9 +34,7 @@ public class Principal {
                 DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
                 temporadas.add(dadosTemporada);
             }
-            temporadas.forEach(t-> {
-                t.episodios().forEach(e -> System.out.println(e.titulo()));
-            });
+            temporadas.forEach(t-> t.episodios().forEach(e -> System.out.println(e.titulo())));
         }
     }
 }
