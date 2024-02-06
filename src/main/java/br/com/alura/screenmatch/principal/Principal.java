@@ -9,9 +9,8 @@ import br.com.alura.screenmatch.services.ConverteDados;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
     private Scanner leitura = new Scanner(System.in);
@@ -34,7 +33,23 @@ public class Principal {
                 DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
                 temporadas.add(dadosTemporada);
             }
-            temporadas.forEach(t-> t.episodios().forEach(e -> System.out.println(e.titulo())));
+            //temporadas.forEach(t-> t.episodios().forEach(e -> System.out.println(e.titulo())));
+            System.out.println("****Top 5 episódios *******");
+            List<DadosEpisodio> dadosEpisodios = temporadas.stream()
+                    .flatMap(t->t.episodios().stream())
+                    .filter(e-> !e.avaliacao().equalsIgnoreCase("N/A"))
+                    .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
+                    .limit(5)
+                    .collect(Collectors.toList());
+            dadosEpisodios.forEach(System.out::println);
         }
+//        List<String> nomes = Arrays.asList("Jacque", "Iasmin", "Paulo", "Rodrigo", "Nico");
+//        String reduce = nomes.stream()
+//                .sorted()
+//                .map(String::toUpperCase)
+//                .filter(n -> n.length() > 4)
+//                .reduce("", (a, b) -> b + " " + a);
+//        System.out.println(reduce);
+
     }
 }
