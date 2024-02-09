@@ -5,6 +5,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
 
@@ -14,11 +19,11 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Principal principal = new Principal();
-		principal.exibeMenu();
-
-
-
+//		Principal principal = new Principal();
+//		principal.exibeMenu();
+		List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+		Optional<Integer> result = numbers.stream().reduce(Integer::sum);
+		result.ifPresent(System.out::println); //prints 15
 
 
 	}
